@@ -1,131 +1,78 @@
 import React from 'react';
-import { Container, Col, Row, Form, Button } from 'react-bootstrap';
-import ExpenseTable from './ExpenseTable';
+import { Container, Col, Form, Button } from 'react-bootstrap';
 
-class ExpenseForm extends React.Component {
-  constructor( props ) {
-    super( props );
-    this.state = {
-      date: '',
-      amount: 0,
-      item: '',
-      comment: '',
-      expenses: []
-    };
-
-    this.handleChange = this.handleChange.bind( this );
-    this.handleSubmit = this.handleSubmit.bind( this );
-    this.deleteItem = this.deleteItem.bind( this );
-  }
-
-  componentDidMount () {
-    console.log( 'form:', this.state.form );
-    console.log( 'id', Date.now() )
-  }
-
-  handleChange ( e ) {
-    const { name, value } = e.target;
-    console.log( 'name: ', name, 'value: ', value );
-    this.setState( {
-      [name]: value
-    } )
-  }
-
-  handleSubmit ( event ) {
-    event.preventDefault();
-
-    const expenseItem = {
-      id: Date.now(),
-      date: this.state.date,
-      amount: this.state.amount,
-      item: this.state.item,
-      comment: this.state.comment,
-    }
-
-    this.setState( {
-      expenses: [...this.state.expenses, expenseItem],
-      date: '',
-      amount: 0,
-      item: '',
-      comment: ''
-    } )
-  }
-
-  deleteItem ( id ) {
-    const removedItem = this.state.expenses.filter( expense => expense.id !== id );
-    console.log( 'Removed item: ', removedItem );
-
-    this.setState( {
-      expenses: removedItem
-    } )
-  }
-
-  render () {
-    return (
-      <Container fluid>
-        <Form id='expense-form' onSubmit={this.handleSubmit}>
-          <Form.Row>
-            <Col>
-              <Form.Group>
-                <Form.Label htmlFor='date'>*Date:</Form.Label>
-                <Form.Control
-                  name='date'
-                  type='date'
-                  placeholder=''
-                  value={this.state.date}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group>
-                <Form.Label htmlFor='amount'>*Amount:</Form.Label>
-                <Form.Control
-                  name='amount'
-                  type='number'
-                  placeholder=''
-                  value={this.state.amount}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group>
-                <Form.Label htmlFor='item'>*Item:</Form.Label>
-                <Form.Control
-                  placeholder=''
-                  name='item'
-                  value={this.state.item}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group>
-                <Form.Label htmlFor='comment'>Comment (Optional):</Form.Label>
-                <Form.Control
-                  name='comment'
-                  placeholder=''
-                  value={this.state.comment}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-            </Col>
-            <Col style={{ marginTop: '32px' }}>
-              <Form.Group>
-                <Button type='submit' variant='primary'>Add Expense</Button>
-              </Form.Group>
-            </Col>
-          </Form.Row>
-        </Form>
-
-        <ExpenseTable expenses={this.state.expenses} delete={( this.deleteItem )} />
-      </Container>
-    )
-  }
-}
+const ExpenseForm = ({
+  date,
+  amount,
+  item,
+  location,
+  handleChange,
+  handleSubmit
+}) => {
+  return (
+    <Container fluid>
+      <Form id='expense-form' onSubmit={handleSubmit}>
+        <Form.Row>
+          <Col>
+            <Form.Group>
+              <Form.Label htmlFor='date'>*Date:</Form.Label>
+              <Form.Control
+                name='date'
+                type='date'
+                placeholder=''
+                value={date}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group>
+              <Form.Label htmlFor='amount'>*Amount:</Form.Label>
+              <Form.Control
+                name='amount'
+                type='number'
+                placeholder=''
+                value={amount}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group>
+              <Form.Label htmlFor='item'>*Item:</Form.Label>
+              <Form.Control
+                placeholder=''
+                name='item'
+                value={item}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group>
+              <Form.Label htmlFor='location'>Location (Optional):</Form.Label>
+              <Form.Control
+                name='location'
+                placeholder=''
+                value={location}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col style={{ marginTop: '32px' }}>
+            <Form.Group>
+              <Button type='submit' variant='primary'>
+                Add Expense
+              </Button>
+            </Form.Group>
+          </Col>
+        </Form.Row>
+      </Form>
+    </Container>
+  );
+};
 
 export default ExpenseForm;
